@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const {Schema} = mongoose;
 
 const portfolioSchema = new Schema({
-    ticker_symbol: {
+    tickerSymbol: {
         type: String,
         required: true,
         unique: true
