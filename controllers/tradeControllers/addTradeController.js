@@ -1,13 +1,16 @@
 const Trade = require("../../models/trades");
 const Portfolio = require('../../models/portfolio');
 
-const {checkIfSecuritiesExist} = require("../../helper_functions/util");
+const {checkIfSecuritiesExist, assignTradeId} = require("../../helper_functions/util");
 
+//add a trade in the Trades collection
 const addTrade = async function(req,res){
     try{
-        const tradeLength = await Trade.count({});
+        //assign a tradeId
+        const tradeId = assignTradeId(req.body);
+        //construct the trade body
         const trade = new Trade({
-            tradeId : tradeLength + 1,
+            tradeId : tradeId,
             tickerSymbol : req.body.tickerSymbol,
             tradeType : req.body.tradeType,
             quantity : req.body.quantity,
@@ -116,10 +119,10 @@ const addTrade = async function(req,res){
         }
         try{
             await trade.save();
-            res.status(200).json("Trade has been successfully registered.");
+            res.status(200).send({message: `Trade has been successfully registered. Your tradeId is ${tradeId}.`});
         }
         catch(err){
-            res.status(500).send({message: "Failed to register the trade."});
+            res.status(500).send({message: err});
         }
     }
     catch(err){

@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const tradeSchema = new mongoose.Schema({
     tradeId: {
-        type: Number,
+        type: String,
         unique: true
     },
     timestamp: {
