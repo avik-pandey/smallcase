@@ -1,4 +1,4 @@
-const DEFAULT_PORT = 3000;
+const DEFAULT_PORT = 8080;
 
 const CURRENT_PRICE = 100;
 

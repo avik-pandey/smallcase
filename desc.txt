@@ -4,8 +4,6 @@
     c. /api/security/remove Delist a company from the stock market DELETE
     d. /api/security/update Update a company in the stock market PUT
 
-Completed till this point
-
 2. Trade Router
     a. /api/trade/add Add a new trade POST
         i. Fetch the trade details from the req.body.
@@ -22,3 +20,9 @@ Completed till this point
 3. Portfolio Router
     a. /api/portfolio/fetch Get the whole view of all the holdings in the portfolio
     b. /api/portfolio/returns Get the total profit at the time of calling this API.
+
+README.md
+
+API Documentation: https://docs.google.com/document/d/1teFVs8rLcmOT6rOf7ghZSsNIKv-qu6USRIyU8cETlmA/edit?usp=sharing
+
+Site is hosted at: https://smallcase-portfolio-api-avik.herokuapp.com/

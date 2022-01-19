@@ -28,6 +28,7 @@ mongoose.connect(MONGO_URI, {
 const app = express();
 
 //middlewares
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 //displays home.html on hitting the base API
@@ -41,10 +42,7 @@ app.use("/api/trade", tradeRouter);
 app.use("/api/security", securityRouter);
 app.use("/api/portfolio", portfolioRouter);
 
-//defining the port
-let PEER_PORT = DEFAULT_PORT + Math.ceil(Math.random*1000);
-
-const PORT = DEFAULT_PORT || PEER_PORT;
+const PORT = process.env.PORT || DEFAULT_PORT;
 
 //app starts listening at the defined port
 app.listen(PORT, () => {
