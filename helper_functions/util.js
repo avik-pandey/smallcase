@@ -2,14 +2,14 @@ const Security = require("../models/securities");
 
 //helper function to check for duplicate entry of security
 const checkIfSecuritiesExist = async(ticker) => {
-    try{
+    try {
         const data = await Security.findOne({tickerSymbol: ticker});
         if(data)
             return true;
         else
             return false;
     }
-    catch(err){
+    catch(err) {
         throw({message: 'fetching of securities failed'});
     }
 };

@@ -15,9 +15,9 @@ router.post("/add", securityValidator.addSecurityValidator, addSecurityControlle
 router.get("/fetch", fetchSecurityController.fetchSecurity);
 
 //route to delete a security from the stock market
-router.delete("/remove/:tickerSymbol", deleteSecurityController.deleteSecurity);
+router.delete("/remove/:tickerSymbol", securityValidator.deleteSecurityValidator ,deleteSecurityController.deleteSecurity);
 
 //route to update a security already exisiting in the stock market
-router.patch("/update/:tickerSymbol", updateSecurityController.updateSecurity);
+router.patch("/update/:tickerSymbol", securityValidator.updateSecurityValidator ,updateSecurityController.updateSecurity);
 
 module.exports = router;

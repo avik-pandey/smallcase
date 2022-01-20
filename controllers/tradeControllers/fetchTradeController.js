@@ -3,21 +3,18 @@ const Security = require('../../models/securities');
 
 
 const fetchTrade = async function(req,res){
-    try
-    {
+    try {
         const securitiesList = await Security.find();
         var tradeListGroupedBySecurity = {};
 
-        for(var i=0;i<securitiesList.length;i++)
-        {
+        for(var i=0;i<securitiesList.length;i++) {
             const tickerSymbol = securitiesList[i].tickerSymbol;
             const trade = await Trade.find({tickerSymbol: tickerSymbol});
             tradeListGroupedBySecurity[tickerSymbol] = trade;
         }
         res.status(200).json(tradeListGroupedBySecurity);
     }
-    catch(err)
-    {
+    catch(err) {
         res.status(500).send({message: "Failed to fetch the list of trades."});
     }
 }

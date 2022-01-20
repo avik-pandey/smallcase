@@ -3,8 +3,8 @@ const Portfolio = require('../../models/portfolio');
 
 const {checkIfSecuritiesExist} = require("../../helper_functions/util");
 
-const updateTrade = async function(req,res){
-    try{
+const updateTrade = async function(req,res) {
+    try {
         const oldTrade = await Trade.findOne({
             tradeId: req.params.tradeId
         });
@@ -19,77 +19,69 @@ const updateTrade = async function(req,res){
         updatedTrade.tradeType = tradeData.tradeType;
         updatedTrade.tickerSymbol = tradeData.tickerSymbol;
 
-        if(req.body.tradeType && oldTrade.tradeType != updatedTrade.tradeType)
-        {
-            if(updatedTrade.tradeType == "Sell")
-            {
+        if(req.body.tradeType && oldTrade.tradeType != updatedTrade.tradeType) {
+            if(updatedTrade.tradeType == "Sell") {
                 //changing tradeType from Buy to Sell
-                if(oldPortfolio.quantity - oldTrade.quantity - updatedTrade.quantity >=0)
-                {
+                if(oldPortfolio.quantity - oldTrade.quantity - updatedTrade.quantity >=0) {
                     updatedPortfolio.quantity = oldPortfolio.quantity - oldTrade.quantity - updatedTrade.quantity;
                     updatedPortfolio.averagePrice = oldPortfolio.averagePrice*oldPortfolio.quantity - 
                                                     oldTrade.unitPrice*oldTrade.quantity - updatedTrade.unitPrice*updatedTrade.quantity;
                     updatedPortfolio.averagePrice = updatedPortfolio.averagePrice/updatedPortfolio.quantity;
                     console.log("Changing from Buying to Selling");
                 }
-                else{
+                else {
                     res.status(500).send({message: "Insufficient funds to convert Buy to Sell"});
                     return;
                 }
             }
-            else if(updatedTrade.tradeType == "Buy"){
+            else if(updatedTrade.tradeType == "Buy") {
                 updatedPortfolio.quantity = oldPortfolio.quantity + oldTrade.quantity + updatedTrade.quantity;
                 updatedPortfolio.averagePrice = oldPortfolio.averagePrice*oldPortfolio.quantity 
                                                 + oldPortfolio.averagePrice*oldTrade.quantity
                                                 + updatedTrade.unitPrice*updatedTrade.quantity;
                 updatedPortfolio.averagePrice = updatedPortfolio.averagePrice/updatedPortfolio.quantity;
             }
-            else{
+            else {
                 res.status(500).send({message: "You cannot have any other trade type other than Buy or Sell"});
                 return;
             }
         }
 
-        else if(oldTrade.tradeType == updatedTrade.tradeType)
-        {
+        else if(oldTrade.tradeType == updatedTrade.tradeType) {
             console.log("A");
-            if(updatedTrade.tradeType == "Buy")
-            {
-                if(oldPortfolio.quantity - oldTrade.quantity + updatedTrade.quantity >=0)
-                {
+            if(updatedTrade.tradeType == "Buy") {
+                if(oldPortfolio.quantity - oldTrade.quantity + updatedTrade.quantity >=0) {
                     updatedPortfolio.quantity = oldPortfolio.quantity - oldTrade.quantity + updatedTrade.quantity;
                     updatedPortfolio.averagePrice = oldPortfolio.quantity*oldPortfolio.averagePrice 
                                                     - oldTrade.unitPrice*oldTrade.quantity
                                                     + updatedTrade.unitPrice*updatedTrade.quantity;
                     updatedPortfolio.averagePrice = updatedPortfolio.averagePrice/updatedPortfolio.quantity;
                 }
-                else{
+                else {
                     res.status(500).send({message: "Insufficient funds to convert Buy to Sell"});
                     return;
                 }
             }
-            else if(updatedTrade.tradeType == "Sell")
-            {
-                if(oldPortfolio.quantity + oldTrade.quantity - updatedTrade.quantity >=0)
-                {
+            else if(updatedTrade.tradeType == "Sell") {
+                if(oldPortfolio.quantity + oldTrade.quantity - updatedTrade.quantity >=0) {
                     updatedPortfolio.quantity = oldPortfolio.quantity + oldTrade.quantity - updatedTrade.quantity;
                     console.log("In sell quantity update case");
                 }
-                else{
+                else {
                     res.status(500).send({message: "No such tradeType is possible"});
                     return;
                 }
             }
-            else{
+            else {
                 res.status(500).send({message: "You cannot have any other trade type other than Buy or Sell"});
                 return;
             }
         }
-        else{
+        else {
             res.status(500).send({message: "No such update is possible"});
             return;
         }
-        try{
+        try {
             await Trade.findByIdAndUpdate(updatedTrade._id,
                 {
                     unitPrice: updatedTrade.unitPrice,
@@ -99,13 +91,12 @@ const updateTrade = async function(req,res){
                 }
             );
         }
-        catch(err)
-        {
+        catch(err) {
             res.status(500).send({message: err});
             return;
         }
 
-        try{
+        try {
             await Portfolio.findByIdAndUpdate(updatedPortfolio._id,
                 {
                     averagePrice: updatedPortfolio.averagePrice,
@@ -113,13 +104,13 @@ const updateTrade = async function(req,res){
                 }   
             );
         }
-        catch(err){
+        catch(err) {
             res.status(500).send({message: err});
             return;
         }
         res.status(200).send({message: "Successfully updated the trade"});
     }
-    catch(err){
+    catch(err) {
         // res.status(500).send({message: "Request body did not contain all the fields, hence trade updation failed"});
         res.status(500).send({message: err});
     }

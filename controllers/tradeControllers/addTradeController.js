@@ -4,8 +4,8 @@ const Portfolio = require('../../models/portfolio');
 const {checkIfSecuritiesExist, assignTradeId} = require("../../helper_functions/util");
 
 //add a trade in the Trades collection
-const addTrade = async function(req,res){
-    try{
+const addTrade = async function(req,res) {
+    try {
         //assign a tradeId
         const tradeId = assignTradeId(req.body);
         //construct the trade body
@@ -23,109 +23,100 @@ const addTrade = async function(req,res){
         const unitPrice = req.body.unitPrice;
         const quantity = req.body.quantity;
 
-        try{
-            if( await checkIfSecuritiesExist(tickerSymbol))
-            {
-                if(tradeType == "Buy")
-                {
-                    try{
+        try {
+            if( await checkIfSecuritiesExist(tickerSymbol)) {
+                if(tradeType == "Buy") {
+                    try {
                         const currentTrade = await Portfolio.findOne({tickerSymbol : tickerSymbol});
-                        if( currentTrade == null)
-                        {
+                        if( currentTrade == null) {
                             const newSecurity = new Portfolio({
                                 tickerSymbol: tickerSymbol,
                                 averagePrice: unitPrice,
                                 quantity: quantity
                             });
     
-                            try{
+                            try {
                                 await newSecurity.save();
                             }
-                            catch(err){
+                            catch(err) {
                                 res.status(500).send({message : "Failed to add new trades"});
                                 return;
                             }
                         }
-                        else{
+                        else {
                             const newQuantity = parseInt(currentTrade.quantity) + parseInt(quantity);
                             const newAveragePrice = (parseFloat(currentTrade.averagePrice)*parseFloat(currentTrade.quantity)
                                 +  parseFloat(unitPrice)*parseFloat(quantity))/newQuantity;
-                            try{
+                            try {
                                 await Portfolio.findByIdAndUpdate(currentTrade._id, {averagePrice: newAveragePrice, quantity: newQuantity});
                             }
-                            catch(err){
+                            catch(err) {
                                 res.status(500).send({message: "Failed to update the portfolio"});
                                 return;
                             }
                         }
                     }
-                    catch(err)
-                    {
+                    catch(err) {
                         res.status(500).send({message: "Failed to buy the security."});
                         return;
                     }
                 }
-                else if(tradeType == "Sell")
-                {
-                    try{
+                else if(tradeType == "Sell") {
+                    try {
                         const currentTrade = await Portfolio.findOne({tickerSymbol : tickerSymbol});
-                        if( currentTrade == null)
-                        {
+                        if( currentTrade == null) {
                             res.status(500).send({message: "You do not have holdings of this security."});
                             return;
                         }
-                        else{
-                            if(currentTrade.quantity < quantity)
-                            {
+                        else {
+                            if(currentTrade.quantity < quantity) {
                                 res.status(500).send({message: "You do not have sufficient holdings to sell."});
                                 return;
                             }
-                            else if(currentTrade.quantity == quantity)
-                            {
-                                try{
+                            else if(currentTrade.quantity == quantity) {
+                                try {
                                     await Portfolio.findByIdAndDelete(currentTrade._id);
                                 }
-                                catch(err){
+                                catch(err) {
                                     res.status(500).send({message: "Failed to sell the security"});
                                     return;
                                 }
                             }
-                            else{
+                            else {
                                 const newQuantity = parseInt(currentTrade.quantity) - parseInt(quantity);
-                                try{
+                                try {
                                     await Portfolio.findByIdAndUpdate(currentTrade._id, {quantity: newQuantity});
                                 }
-                                catch(err){
+                                catch(err) {
                                     res.status(500).send({message: "Failed to update the portfolio"});
                                     return;
                                 }
                             }
                         }
                     }
-                    catch(err)
-                    {
+                    catch(err) {
                         res.status(500).send({message: "Failed to sell the security."});
                         return;
                     }
                 }
             }
-            else{
+            else {
                 res.status(500).send({message: "Security does not exist. Hence the trade would not be possible."});
                 return;
             }
         }
-        catch(err){
+        catch(err) {
             res.status(500).send({message: "No such security exist,hence trade is not possible"});
         }
-        try{
+        try {
             await trade.save();
             res.status(200).send({message: `Trade has been successfully registered. Your tradeId is ${tradeId}.`});
         }
-        catch(err){
+        catch(err) {
             res.status(500).send({message: err});
         }
     }
-    catch(err){
+    catch(err) {
         res.status(500).send({message: "Failed to register the trade."});
     }
 }
