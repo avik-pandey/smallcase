@@ -18,6 +18,6 @@ router.get("/fetch", fetchSecurityController.fetchSecurity);
 router.delete("/remove/:tickerSymbol", securityValidator.deleteSecurityValidator ,deleteSecurityController.deleteSecurity);
 
 //route to update a security already exisiting in the stock market
-router.patch("/update/:tickerSymbol", securityValidator.updateSecurityValidator ,updateSecurityController.updateSecurity);
+router.patch("/update/:tickerSymbol", updateSecurityController.updateSecurity);
 
 module.exports = router;
