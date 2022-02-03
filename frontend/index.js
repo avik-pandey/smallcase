@@ -94,17 +94,16 @@ function loadPortfolioTable() {
         title: 'Edit Security',
         html:
           '<input id="id" type="hidden">' +
-          '<input id="tickerSymbol" class="swal2-input" placeholder="Ticker Symbol">' +
+          '<h3>'+ tickerSymbol+ '</h3>'+
           '<input id="securityName" class="swal2-input" placeholder="Security Name">',
         focusConfirm: false,
         preConfirm: () => {
-            const tickerSymbol = document.getElementById("tickerSymbol").value;
             const securityName = document.getElementById("securityName").value;
             const xhttp = new XMLHttpRequest();
             xhttp.open("PATCH", "https://smallcase-portfolio-api-avik.herokuapp.com/api/security/update/"+tickerSymbol);
             xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
             xhttp.send(JSON.stringify({
-                "tickerSymbol": tickerSymbol, "securityName": securityName
+                "securityName": securityName
             }));
             xhttp.onreadystatechange = function(){
                 if (this.readyState == 4 && this.status == 200) {
