@@ -11,7 +11,7 @@ const fetchPortfolio = async function(req,res) {
         }
     }
     catch(err) {
-        res.status(400).send({message: "Failed to fetch the API"});
+        res.status(200).send({message: "Failed to fetch the API"});
     }
 }
 

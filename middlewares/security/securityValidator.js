@@ -5,7 +5,7 @@ function addSecurityValidator(req,res,next) {
     if(tickerSymbol === tickerSymbol.toUpperCase())
         next();
     else
-        res.status(500).send({message: "The ticker symbol must be in All Caps."});
+        res.status(200).send({message: "The ticker symbol must be in All Caps."});
 }
 
 function updateSecurityValidator(req,res,next) {
@@ -16,10 +16,10 @@ function updateSecurityValidator(req,res,next) {
             next();
         }
         else
-            res.status(400).send({message: "You cannot update the ticker symbol of a security"});
+            res.status(200).send({message: "You cannot update the ticker symbol of a security"});
     }
     else
-        res.status(500).send({message: "The ticker symbol must be in All Caps."});
+        res.status(200).send({message: "The ticker symbol must be in All Caps."});
 }
 
 function deleteSecurityValidator(req,res,next) {
@@ -27,7 +27,7 @@ function deleteSecurityValidator(req,res,next) {
     if(tickerSymbol == tickerSymbol.toUpperCase())
         next();
     else
-        res.status(500).send({message: "The ticker symbol must be in All Caps."});
+        res.status(200).send({message: "The ticker symbol must be in All Caps."});
 }
 
 module.exports = { addSecurityValidator, updateSecurityValidator, deleteSecurityValidator };

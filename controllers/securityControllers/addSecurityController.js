@@ -11,7 +11,7 @@ const addSecurity = async function(req,res) {
         res.status(200).send({message: "Successfully added a security"});
     }
     catch(err) {
-        res.status(500).send({message: "Duplicate security"});
+        res.status(200).send({message: "Duplicate security"});
     }
 }
 

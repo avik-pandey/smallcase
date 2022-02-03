@@ -2,6 +2,7 @@ const bodyParser = require('body-parser');
 const express = require('express');
 require('dotenv').config();
 const path = require('path');
+const cors = require('cors');
 const mongoose = require('mongoose');
 const {DEFAULT_PORT,MONGO_URI} = require('./config');
 
@@ -30,6 +31,14 @@ const app = express();
 //middlewares
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+app.use(cors());
+app.use((req,res,next) => {
+    res.header('Access-Control-Allow-Origin', '*');
+    // res.setHeader("Access-Control-Allow-Credentials", "true");
+    // res.setHeader("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT");
+    next();
+});
+
 
 //displays home.html on hitting the base API
 app.get('/',(req,res) => {

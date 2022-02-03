@@ -8,7 +8,7 @@ const deleteSecurity = async function(req,res) {
         res.status(200).send({message: "Successfully deleted a security"});
     }
     catch(err) {
-        res.status(500).send({message: "Security does not exist"});
+        res.status(200).send({message: "Security does not exist"});
     }
 }
 

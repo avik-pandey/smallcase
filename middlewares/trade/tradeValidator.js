@@ -12,19 +12,19 @@ function addTradeValidator(req,res,next) {
                     if(data.tradeType == "Buy" || data.tradeType == "Sell")
                         next();
                     else
-                        res.status(500).send({message: "The trade type should be only Buy or Sell"});
+                        res.status(200).send({message: "The trade type should be only Buy or Sell"});
                 }   
                 else
-                    res.status(500).send({message: "The tickerSymbol should be in upper case"});
+                    res.status(200).send({message: "The tickerSymbol should be in upper case"});
             }
             else
-                res.status(500).send({message: "The unitPrice should be positive"});
+                res.status(200).send({message: "The unitPrice should be positive"});
         }
         else
-            res.status(500).send({message: "The quantity should be positive"});
+            res.status(200).send({message: "The quantity should be positive"});
     }
     else
-        res.status(500).send({message: "The quantity to buy should be an integer."});
+        res.status(200).send({message: "The quantity to buy should be an integer."});
 }
 
 //middleware to check if the req.params is a valid one and exists in the trade collection.
@@ -40,19 +40,19 @@ async function updateTradeValidator(req,res,next) {
                     if(tradeData.tradeType == "Buy" || tradeData.tradeType == "Sell")
                         next();
                     else
-                        res.status(500).send({message: "The trade type should be only Buy or Sell"});
+                        res.status(200).send({message: "The trade type should be only Buy or Sell"});
                 }   
                 else
-                    res.status(500).send({message: "The tickerSymbol should be in upper case"});
+                    res.status(200).send({message: "The tickerSymbol should be in upper case"});
             }
             else
-                res.status(500).send({message: "The unitPrice should be positive"});
+                res.status(200).send({message: "The unitPrice should be positive"});
         }
         else
-            res.status(500).send({message: "The quantity should be positive"});
+            res.status(200).send({message: "The quantity should be positive"});
     }
     else
-        res.status(500).send({message: "The quantity to buy should be an integer."});
+        res.status(200).send({message: "The quantity to buy should be an integer."});
 }
 
 

@@ -15,7 +15,7 @@ const fetchTrade = async function(req,res){
         res.status(200).json(tradeListGroupedBySecurity);
     }
     catch(err) {
-        res.status(500).send({message: "Failed to fetch the list of trades."});
+        res.status(200).send({message: "Failed to fetch the list of trades."});
     }
 }
 

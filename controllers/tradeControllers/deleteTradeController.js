@@ -10,7 +10,7 @@ const deleteTrade = async function(req,res) {
         tradeToDelete = await Trade.findOne({tradeId:req.params.tradeId});
     }
     catch(err) {
-        res.status(500).send({message: err})
+        res.status(200).send({message: err})
     }
     if(tradeToDelete.tradeType == "Buy") {
         const quantityBought = tradeToDelete.quantity;
@@ -21,7 +21,7 @@ const deleteTrade = async function(req,res) {
             updatedSecurity = await Portfolio.findOne({tickerSymbol: tickerSymbol});
         }
         catch(err) {
-            res.status(500).send({message: "Failed to fetch the security from portfolio"});
+            res.status(200).send({message: "Failed to fetch the security from portfolio"});
             return;
         }
         const updatedQuantity = parseInt(updatedSecurity.quantity) - parseInt(quantityBought);
@@ -34,7 +34,7 @@ const deleteTrade = async function(req,res) {
                 return;
             }
             catch(err) {
-                res.status(500).send({message: err});
+                res.status(200).send({message: err});
                 return;
             }
         }
@@ -47,7 +47,7 @@ const deleteTrade = async function(req,res) {
             return;
         }
         catch(err) {
-            res.status(500).send({message: err});
+            res.status(200).send({message: err});
             return;
         }
     }
@@ -73,12 +73,12 @@ const deleteTrade = async function(req,res) {
                     res.status(200).send({message: "Successfully deleted the trade and updated the portfolio database"});
                 }
                 catch(err) {
-                    res.status(500).send({message: "Failed to update the portfolio"});
+                    res.status(200).send({message: "Failed to update the portfolio"});
                 }
             }
         }
         catch(err) {
-            res.status(500).send({message: "Failed to fetch the security from portfolio"});
+            res.status(200).send({message: "Failed to fetch the security from portfolio"});
             return;
         }
 
@@ -90,12 +90,12 @@ const deleteTrade = async function(req,res) {
             res.status(200).send({message: "Successfully deleted the trade and updated the portfolio database"});
         }
         catch(err) {
-            res.status(500).send({message: "Failed to update the security in the portfolio"});
+            res.status(200).send({message: "Failed to update the security in the portfolio"});
             return;
         }
     }
     else {
-        res.status(500).send({message: "Trade type must be Buy or Sell only."});
+        res.status(200).send({message: "Trade type must be Buy or Sell only."});
     }
 }
 

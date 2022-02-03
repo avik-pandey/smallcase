@@ -39,7 +39,7 @@ const addTrade = async function(req,res) {
                                 await newSecurity.save();
                             }
                             catch(err) {
-                                res.status(500).send({message : "Failed to add new trades"});
+                                res.status(200).send({message : "Failed to add new trades"});
                                 return;
                             }
                         }
@@ -51,13 +51,13 @@ const addTrade = async function(req,res) {
                                 await Portfolio.findByIdAndUpdate(currentTrade._id, {averagePrice: newAveragePrice, quantity: newQuantity});
                             }
                             catch(err) {
-                                res.status(500).send({message: "Failed to update the portfolio"});
+                                res.status(200).send({message: "Failed to update the portfolio"});
                                 return;
                             }
                         }
                     }
                     catch(err) {
-                        res.status(500).send({message: "Failed to buy the security."});
+                        res.status(200).send({message: "Failed to buy the security."});
                         return;
                     }
                 }
@@ -65,12 +65,12 @@ const addTrade = async function(req,res) {
                     try {
                         const currentTrade = await Portfolio.findOne({tickerSymbol : tickerSymbol});
                         if( currentTrade == null) {
-                            res.status(500).send({message: "You do not have holdings of this security."});
+                            res.status(200).send({message: "You do not have holdings of this security."});
                             return;
                         }
                         else {
                             if(currentTrade.quantity < quantity) {
-                                res.status(500).send({message: "You do not have sufficient holdings to sell."});
+                                res.status(200).send({message: "You do not have sufficient holdings to sell."});
                                 return;
                             }
                             else if(currentTrade.quantity == quantity) {
@@ -78,7 +78,7 @@ const addTrade = async function(req,res) {
                                     await Portfolio.findByIdAndDelete(currentTrade._id);
                                 }
                                 catch(err) {
-                                    res.status(500).send({message: "Failed to sell the security"});
+                                    res.status(200).send({message: "Failed to sell the security"});
                                     return;
                                 }
                             }
@@ -88,36 +88,36 @@ const addTrade = async function(req,res) {
                                     await Portfolio.findByIdAndUpdate(currentTrade._id, {quantity: newQuantity});
                                 }
                                 catch(err) {
-                                    res.status(500).send({message: "Failed to update the portfolio"});
+                                    res.status(200).send({message: "Failed to update the portfolio"});
                                     return;
                                 }
                             }
                         }
                     }
                     catch(err) {
-                        res.status(500).send({message: "Failed to sell the security."});
+                        res.status(200).send({message: "Failed to sell the security."});
                         return;
                     }
                 }
             }
             else {
-                res.status(500).send({message: "Security does not exist. Hence the trade would not be possible."});
+                res.status(200).send({message: "Security does not exist. Hence the trade would not be possible."});
                 return;
             }
         }
         catch(err) {
-            res.status(500).send({message: "No such security exist,hence trade is not possible"});
+            res.status(200).send({message: "No such security exist,hence trade is not possible"});
         }
         try {
             await trade.save();
             res.status(200).send({message: `Trade has been successfully registered. Your tradeId is ${tradeId}.`});
         }
         catch(err) {
-            res.status(500).send({message: err});
+            res.status(200).send({message: err});
         }
     }
     catch(err) {
-        res.status(500).send({message: "Failed to register the trade."});
+        res.status(200).send({message: "Failed to register the trade."});
     }
 }
 

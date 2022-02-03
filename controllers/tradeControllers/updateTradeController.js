@@ -30,7 +30,7 @@ const updateTrade = async function(req,res) {
                     console.log("Changing from Buying to Selling");
                 }
                 else {
-                    res.status(500).send({message: "Insufficient funds to convert Buy to Sell"});
+                    res.status(200).send({message: "Insufficient funds to convert Buy to Sell"});
                     return;
                 }
             }
@@ -42,7 +42,7 @@ const updateTrade = async function(req,res) {
                 updatedPortfolio.averagePrice = updatedPortfolio.averagePrice/updatedPortfolio.quantity;
             }
             else {
-                res.status(500).send({message: "You cannot have any other trade type other than Buy or Sell"});
+                res.status(200).send({message: "You cannot have any other trade type other than Buy or Sell"});
                 return;
             }
         }
@@ -58,7 +58,7 @@ const updateTrade = async function(req,res) {
                     updatedPortfolio.averagePrice = updatedPortfolio.averagePrice/updatedPortfolio.quantity;
                 }
                 else {
-                    res.status(500).send({message: "Insufficient funds to convert Buy to Sell"});
+                    res.status(200).send({message: "Insufficient funds to convert Buy to Sell"});
                     return;
                 }
             }
@@ -68,17 +68,17 @@ const updateTrade = async function(req,res) {
                     console.log("In sell quantity update case");
                 }
                 else {
-                    res.status(500).send({message: "No such tradeType is possible"});
+                    res.status(200).send({message: "No such tradeType is possible"});
                     return;
                 }
             }
             else {
-                res.status(500).send({message: "You cannot have any other trade type other than Buy or Sell"});
+                res.status(200).send({message: "You cannot have any other trade type other than Buy or Sell"});
                 return;
             }
         }
         else {
-            res.status(500).send({message: "No such update is possible"});
+            res.status(200).send({message: "No such update is possible"});
             return;
         }
         try {
@@ -92,7 +92,7 @@ const updateTrade = async function(req,res) {
             );
         }
         catch(err) {
-            res.status(500).send({message: err});
+            res.status(200).send({message: err});
             return;
         }
 
@@ -105,14 +105,14 @@ const updateTrade = async function(req,res) {
             );
         }
         catch(err) {
-            res.status(500).send({message: err});
+            res.status(200).send({message: err});
             return;
         }
         res.status(200).send({message: "Successfully updated the trade"});
     }
     catch(err) {
         // res.status(500).send({message: "Request body did not contain all the fields, hence trade updation failed"});
-        res.status(500).send({message: err});
+        res.status(200).send({message: err});
     }
 }
 

@@ -94,7 +94,7 @@ function loadPortfolioTable() {
         title: 'Edit Security',
         html:
           '<input id="id" type="hidden">' +
-          '<h3>'+ tickerSymbol+ '</h3>'+
+          '<h3>' + tickerSymbol + '</h3>' +
           '<input id="securityName" class="swal2-input" placeholder="Security Name">',
         focusConfirm: false,
         preConfirm: () => {
